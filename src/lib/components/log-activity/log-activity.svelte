@@ -12,7 +12,6 @@
 </script>
 
 <div class="flex flex-col gap-4 rounded-lg bg-dark-600 p-6 text-dark-100">
-	{difficulty}
 	{#if !showFeedback}
 		<div>
 			<h2 class="text-lg font-semibold">Today you should do...</h2>

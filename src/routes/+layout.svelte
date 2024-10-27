@@ -17,7 +17,7 @@
 	</main>
 	<footer class="">
 		<div class="mx-auto max-w-4xl px-4 py-4 text-center text-gray-600">
-			<p>© 2024 Your Website. All rights reserved.</p>
+			<p>© 2024 Cool Website. All rights reserved.</p>
 		</div>
 	</footer>
 </div>

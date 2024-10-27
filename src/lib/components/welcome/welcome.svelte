@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { User } from '$lib';
 
-	const targetOptions = Array.from({ length: (200 - 50) / 25 + 1 }, (_, i) => 50 + i * 25);
+	const targetOptions = [
+		...Array.from({ length: (200 - 50) / 25 + 1 }, (_, i) => 50 + i * 25),
+		999
+	];
 
 	function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();

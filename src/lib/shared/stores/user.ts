@@ -49,7 +49,6 @@ function setCookie(name: string, value: string, days = 7) {
 
 function createUserStore() {
 	const initialValue = defaultValue;
-	console.log(initialValue);
 	const { subscribe, set: baseSet, update } = writable<UserState>(initialValue);
 
 	function computeCurrentCount(state: UserState) {
@@ -89,7 +88,9 @@ function createUserStore() {
 				set({ ...defaultValue, loading: false });
 			}
 		} else {
-			setCookie('userState', JSON.stringify(initialValue));
+			const initialState = { ...initialValue, loading: false };
+			setCookie('userState', JSON.stringify(initialState));
+			set(initialState);
 		}
 
 		subscribe((value) => {
