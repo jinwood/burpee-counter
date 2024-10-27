@@ -27,3 +27,10 @@ user.subscribe((value) => {
 		window.localStorage.setItem('user', JSON.stringify(value));
 	}
 });
+
+export const User = writable<UserState>({
+	targetCount: undefined,
+	lastCount: 0,
+	activity: 'burpee',
+	currrentCount: 0
+});

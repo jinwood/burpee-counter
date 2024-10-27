@@ -1,2 +1,13 @@
-<h1 class="text-lg font-semibold text-black">Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import { User, Welcome } from '$lib';
+
+	const newUser = $User.targetCount === undefined;
+</script>
+
+<div class="pt-8">
+	{#if newUser}
+		<Welcome />
+	{:else}
+		<p class="text-dark-100">Youre not new</p>
+	{/if}
+</div>
