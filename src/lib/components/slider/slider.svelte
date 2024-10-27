@@ -1,26 +1,15 @@
 <script>
 	import Range from './range.svelte';
-	let value = 42;
-	let theme = 'default';
+	let value = 0;
 </script>
 
-<div class={theme === 'purple' ? 'purple-theme' : ''}>
-	<label for="basic-range" class="mx-2 my-2 block text-base font-semibold"> Range Label </label>
-	<Range on:change={(e) => (value = e.detail.value)} id="basic-slider" />
+<div>
+	<Range on:change={(e) => (value = e.detail.value)} />
 </div>
 
 <h3 class="text-center">
 	{value}
 </h3>
-
-<h3 class="text-center">
-	Theme: {theme}
-</h3>
-
-<div class="flex justify-center">
-	<button on:click={() => (theme = 'default')} class="mx-1"> Default </button>
-	<button on:click={() => (theme = 'purple')} class="mx-1"> Purple </button>
-</div>
 
 <style>
 	:global(.purple-theme) {
