@@ -33,6 +33,7 @@
 	{#if showFeedback}
 		<div>
 			<h2 class="text-lg font-semibold">How was it?</h2>
+			<p>1 - easy, 10 - hard</p>
 			<Slider bind:difficulty />
 			<button
 				class="focus:shadow-outline rounded bg-accent-700 px-4 py-2 font-bold text-white hover:bg-accent-500 focus:outline-none"

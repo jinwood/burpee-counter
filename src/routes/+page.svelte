@@ -6,9 +6,13 @@
 	$: user = $User;
 	$: newUser = $User.targetCount === undefined;
 	$: loading = $User.loading;
-	$: hasLoggedToday = $User.history.find(
-		(h) => h.date.toDateString() === new Date().toDateString()
-	);
+	$: hasLoggedToday =
+		$User.history.length > 0
+			? $User.history.find((h) => {
+					console.log(h.date);
+					return new Date(h.date).toDateString() === new Date().toDateString();
+				})
+			: false;
 </script>
 
 <div class="pt-8">
@@ -25,7 +29,7 @@
 			<div class="flex flex-col gap-2 text-dark-100">
 				{#each user.history as item}
 					<div class="rounded-s bg-dark-600 p-4">
-						<h3 class="text-lg font-semibold">{item.date.toDateString()}</h3>
+						<h3 class="text-lg font-semibold">{new Date(item.date).toDateString()}</h3>
 						<p>
 							<span class="font-semibold">Count: </span>{item.count}
 							<span class="font-semibold">Difficulty:</span>

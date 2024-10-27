@@ -75,7 +75,15 @@ function createUserStore() {
 		if (stored) {
 			try {
 				const state = JSON.parse(stored) as UserState;
-				set({ ...state, loading: false });
+				const convertedState = {
+					...state,
+					history: state.history.map((item) => ({
+						...item,
+						date: new Date(item.date)
+					})),
+					loading: false
+				};
+				set(convertedState);
 			} catch (e) {
 				console.error('Failed to parse cookie:', e);
 				set({ ...defaultValue, loading: false });
@@ -105,10 +113,10 @@ function createUserStore() {
 		set,
 		update: customUpdate,
 		saveHistory: (value: HistoryItem) => {
-			console.log('history', value);
 			customUpdate((state) => ({
 				...state,
-				history: [...state.history, value]
+				history: [...state.history, value],
+				currentCount: state.currentCount + 5
 			}));
 		},
 		setTargetCount: (target: number) => {
