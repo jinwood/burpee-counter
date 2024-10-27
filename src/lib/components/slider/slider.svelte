@@ -1,14 +1,15 @@
-<script>
+<script lang="ts">
 	import Range from './range.svelte';
-	let value = 0;
+
+	let { difficulty = $bindable() } = $props();
 </script>
 
 <div>
-	<Range on:change={(e) => (value = e.detail.value)} />
+	<Range on:change={(e) => (difficulty = e.detail.value)} />
 </div>
 
 <h3 class="text-center">
-	{value}
+	{difficulty}
 </h3>
 
 <style>

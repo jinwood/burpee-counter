@@ -4,9 +4,15 @@
 
 	$: user = $User;
 	$: showFeedback = false;
+	$: difficulty = 0;
+
+	function saveHistory() {
+		User.saveHistory({ difficulty, count: user.currentCount, date: new Date() });
+	}
 </script>
 
 <div class="flex flex-col gap-4 rounded-lg bg-dark-600 p-6 text-dark-100">
+	{difficulty}
 	{#if !showFeedback}
 		<div>
 			<h2 class="text-lg font-semibold">Today you should do...</h2>
@@ -27,11 +33,17 @@
 	{#if showFeedback}
 		<div>
 			<h2 class="text-lg font-semibold">How was it?</h2>
-			<Slider />
+			<Slider bind:difficulty />
 			<button
 				class="focus:shadow-outline rounded bg-accent-700 px-4 py-2 font-bold text-white hover:bg-accent-500 focus:outline-none"
-				>Finish</button
+				onclick={saveHistory}>Finish</button
 			>
 		</div>
 	{/if}
+	{#each user.history as item}
+		<div>
+			{item.difficulty}
+			{item.count}
+		</div>
+	{/each}
 </div>

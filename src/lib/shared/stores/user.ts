@@ -1,6 +1,12 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
+interface HistoryItem {
+	date: Date;
+	count: number;
+	difficulty: number;
+}
+
 interface UserState {
 	loading: boolean;
 	activity: 'burpee';
@@ -8,6 +14,7 @@ interface UserState {
 	currentCount: number;
 	currentEffort?: number;
 	targetCount?: number;
+	history: HistoryItem[];
 }
 
 const defaultValue: UserState = {
@@ -16,7 +23,8 @@ const defaultValue: UserState = {
 	lastCount: 0,
 	currentCount: 0,
 	currentEffort: undefined,
-	targetCount: undefined
+	targetCount: undefined,
+	history: []
 };
 
 function getCookie(name: string): string | null {
@@ -41,6 +49,7 @@ function setCookie(name: string, value: string, days = 7) {
 
 function createUserStore() {
 	const initialValue = defaultValue;
+	console.log(initialValue);
 	const { subscribe, set: baseSet, update } = writable<UserState>(initialValue);
 
 	function computeCurrentCount(state: UserState) {
@@ -95,6 +104,13 @@ function createUserStore() {
 		subscribe,
 		set,
 		update: customUpdate,
+		saveHistory: (value: HistoryItem) => {
+			console.log('history', value);
+			customUpdate((state) => ({
+				...state,
+				history: [...state.history, value]
+			}));
+		},
 		setTargetCount: (target: number) => {
 			customUpdate((state) => ({
 				...state,
