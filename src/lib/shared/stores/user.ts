@@ -19,6 +19,26 @@ const defaultValue: UserState = {
 	targetCount: undefined
 };
 
+function getCookie(name: string): string | null {
+	if (!browser) return null;
+	const cookies = document.cookie.split(';');
+	for (const cookie of cookies) {
+		const [cookieName, cookieValue] = cookie.split('=').map((c) => c.trim());
+		if (cookieName === name) {
+			return decodeURIComponent(cookieValue);
+		}
+	}
+	return null;
+}
+
+function setCookie(name: string, value: string, days = 7) {
+	if (!browser) return;
+	const date = new Date();
+	date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+	const expires = `expires=${date.toUTCString()}`;
+	document.cookie = `${name}=${encodeURIComponent(value)};${expires};path=/`;
+}
+
 function createUserStore() {
 	const initialValue = defaultValue;
 	const { subscribe, set: baseSet, update } = writable<UserState>(initialValue);
@@ -38,19 +58,25 @@ function createUserStore() {
 			...value,
 			currentCount: computeCurrentCount(value)
 		};
-
 		baseSet(computedValue);
 	}
 
 	if (browser) {
-		const stored = window.localStorage.getItem('user');
+		const stored = getCookie('userState');
 		if (stored) {
-			const state = JSON.parse(stored) as UserState;
-			set({ ...state, loading: false });
+			try {
+				const state = JSON.parse(stored) as UserState;
+				set({ ...state, loading: false });
+			} catch (e) {
+				console.error('Failed to parse cookie:', e);
+				set({ ...defaultValue, loading: false });
+			}
+		} else {
+			setCookie('userState', JSON.stringify(initialValue));
 		}
 
 		subscribe((value) => {
-			window.localStorage.setItem('user', JSON.stringify(value));
+			setCookie('userState', JSON.stringify(value));
 		});
 	}
 
@@ -86,6 +112,12 @@ function createUserStore() {
 				...state,
 				currentCount: 0
 			}));
+		},
+		clearState: () => {
+			if (browser) {
+				document.cookie = '';
+			}
+			set({ ...defaultValue, loading: false });
 		}
 	};
 }
