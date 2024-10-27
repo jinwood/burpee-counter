@@ -1,9 +1,27 @@
 <script lang="ts">
+	import { User } from '$lib';
+
+	function handleSubmit(event: SubmitEvent) {
+		event.preventDefault();
+
+		const form = event.target as HTMLFormElement;
+		const formData = new FormData(form);
+		const targetCount = Number(formData.get('targetCount'));
+
+		if (targetCount < 1) {
+			//error state
+		}
+
+		User.update((u) => ({
+			...u,
+			targetCount: targetCount
+		}));
+	}
 </script>
 
 <div class="rounded-md bg-dark-800 p-8 text-dark-100">
 	<h2 class="font-semibold">Lets get you started</h2>
-	<form method="POST" action="welcome">
+	<form on:submit={handleSubmit}>
 		<div class="flex flex-col gap-4">
 			<p>What's your target number of burpees?</p>
 			<input

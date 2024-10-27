@@ -23,6 +23,7 @@ const initialValue = fromStorage ? (JSON.parse(fromStorage) as UserState) : defa
 const user = writable<UserState>(initialValue);
 
 user.subscribe((value) => {
+	console.log('subscribe');
 	if (browser) {
 		window.localStorage.setItem('user', JSON.stringify(value));
 	}
