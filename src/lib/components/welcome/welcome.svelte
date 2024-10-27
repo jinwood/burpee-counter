@@ -12,8 +12,8 @@
 			//error state
 		}
 
-		User.update((u) => ({
-			...u,
+		User.update((user) => ({
+			...user,
 			targetCount: targetCount
 		}));
 	}
@@ -29,6 +29,7 @@
 				name="targetCount"
 				type="number"
 				class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none sm:w-1/2"
+				value="5"
 			/>
 			<button
 				class="focus:shadow-outline rounded bg-accent-700 px-4 py-2 font-bold text-white hover:bg-accent-500 focus:outline-none"

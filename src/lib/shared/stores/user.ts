@@ -4,7 +4,7 @@ import { writable } from 'svelte/store';
 interface UserState {
 	activity: 'burpee';
 	lastCount: number;
-	currrentCount: number;
+	currentCount: number;
 	currentEffort?: number;
 	targetCount?: number;
 }
@@ -12,26 +12,26 @@ interface UserState {
 const defaultValue: UserState = {
 	activity: 'burpee',
 	lastCount: 0,
-	currrentCount: 0,
+	currentCount: 0,
 	currentEffort: undefined,
 	targetCount: undefined
 };
 
-const fromStorage = browser ? window.localStorage.getItem('user') : '';
-const initialValue = fromStorage ? (JSON.parse(fromStorage) as UserState) : defaultValue;
+function createUserStore() {
+	const initialValue = defaultValue;
+	const store = writable<UserState>(initialValue);
 
-const user = writable<UserState>(initialValue);
-
-user.subscribe((value) => {
-	console.log('subscribe');
 	if (browser) {
-		window.localStorage.setItem('user', JSON.stringify(value));
-	}
-});
+		const stored = window.localStorage.getItem('user');
+		if (stored) {
+			store.set(JSON.parse(stored));
+		}
 
-export const User = writable<UserState>({
-	targetCount: undefined,
-	lastCount: 0,
-	activity: 'burpee',
-	currrentCount: 0
-});
+		store.subscribe((value) => {
+			window.localStorage.setItem('user', JSON.stringify(value));
+		});
+	}
+	return store;
+}
+
+export const User = createUserStore();

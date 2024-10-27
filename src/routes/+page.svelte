@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { User, Welcome } from '$lib';
 
-	console.log($User.targetCount);
-	const newUser = $User.targetCount === undefined;
+	console.log($User);
+	$: newUser = $User.targetCount === undefined;
 </script>
 
 <div class="pt-8">
